@@ -5,13 +5,17 @@ import {
   SET_VISIBILITY_FILTER
 } from '../actionTypes';
 
-const initialState = {
-  visibilityFilters: VisibilityFilters.SHOW_ALL,
-  todos: []
-};
+// Reducer composition (visibilityFilter)
+const visibilityFilter = (state = VisibilityFilters.SHOW_ALL, action) => {
+  switch (action.type) {
+    case SET_VISIBILITY_FILTER:
+      return action.filter;
+    default:
+      return state;
+  }
+}
 
-// Reducer composition, separate todo actions from set filter
-// Takes in state.todos array
+// Reducer composition (todos)
 const todos = (state = [], action) => {
   switch (action.type) {
     case ADD_TODO:
@@ -38,25 +42,10 @@ const todos = (state = [], action) => {
   }
 }
 
-const todoApp = (state = initialState, action) => {
-  switch (action.type) {
-    case SET_VISIBILITY_FILTER:
-      return {
-        ...state,
-        visibilityFilters: action.filter
-      };
-    case ADD_TODO:
-      return {
-        ...state,
-        todos: todos(state.todos, action)
-      };
-    case TOGGLE_TODO:
-      return {
-        ...state,
-        todos: todos(state.todos, action)
-      };
-    default:
-      return state;
-  }
-  return state;
+// Main Reducer
+const todoApp = (state = {}, action) => {
+  return {
+    visibilityFilter: visibilityFilter(state.visibilityFilter, action),
+    todos: todos(state.todos, action)
+  };
 };
