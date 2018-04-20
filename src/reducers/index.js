@@ -30,8 +30,8 @@ const todos = (state = [], action) => {
         }
       ];
     case TOGGLE_TODO:
-      return state.map((todo, index) => {
-        if (index === todo.id) {
+      return state.map((todo) => {
+        if (action.id === todo.id) {
           return {
             ...todo,
             completed: !todo.completed
@@ -49,5 +49,16 @@ const todoApp = combineReducers({
   visibilityFilter,
   todos
 });
+
+/*
+  Above combineReducers (convenience method) call is equivalent to:
+
+  export default function todoApp(state = {}, action) {
+    return {
+      visibilityFilter: visibilityFilter(state.visibilityFilter, action),
+      todos: todos(state.todos, action)
+    }
+  }
+*/
 
 export default todoApp;

@@ -8,7 +8,7 @@ export const VisibilityFilters = {
   SHOW_ACTIVE: 'SHOW_ACTIVE'
 };
 
-export const addToDo = text => (
+export const addTodo = text => (
   {
     type: ADD_TODO,
     id: nextTodoIndex++,
